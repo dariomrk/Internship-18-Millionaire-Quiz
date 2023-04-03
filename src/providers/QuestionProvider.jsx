@@ -14,7 +14,6 @@ function QuestionProvider({ children }) {
 
   const getNext = () => {
     const [nextQuestion, modifiedQuestions] = consumeQuestions(questions);
-
     setCurrentQuestion(nextQuestion);
     setQuestions(modifiedQuestions);
   };
