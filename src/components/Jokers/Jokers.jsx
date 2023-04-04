@@ -5,10 +5,12 @@ import React, { useEffect } from 'react';
 import { AlignBoxBottomCenter, CircleOff, PhoneCalling } from 'tabler-icons-react';
 import { JokerActionsEnum, useJoker } from '../../providers/JokerProvider';
 import { useQuestion } from '../../providers/QuestionProvider';
+import { useDialog, DialogEnum } from '../../providers/DialogProvider';
 
 function Jokers({}) {
   const jokerContext = useJoker();
   const questionContext = useQuestion();
+  const dialogContext = useDialog();
 
   useEffect(() => {
     if (questionContext.question === null) {
@@ -18,6 +20,11 @@ function Jokers({}) {
 
     jokerContext.setCurrentQuestion(questionContext.question.id);
   }, [questionContext.question]);
+
+  useEffect(() => {
+    if (jokerContext.audience === null) { return; }
+    dialogContext.openDialog(DialogEnum.JokerHintDialog, {});
+  }, [jokerContext.audience]);
 
   return (
     <Card

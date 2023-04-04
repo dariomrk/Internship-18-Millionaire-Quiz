@@ -14,12 +14,12 @@ function Dialog({}) {
     <>
       <JokerHintDialog
         open={activeDialog === DialogEnum.JokerHintDialog}
-        onClose={closeDialog()}
+        onClose={closeDialog}
         {...additionalProps}
       />
       <GameEventDialog
         open={activeDialog === DialogEnum.GameEventDialog}
-        onClose={closeDialog()}
+        onClose={closeDialog}
         {...additionalProps}
       />
     </>

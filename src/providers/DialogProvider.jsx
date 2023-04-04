@@ -52,10 +52,10 @@ function DialogProvider({ children }) {
     <DialogContext.Provider value={useMemo(() => ({
       activeDialog: state.activeDialog,
       additionalProps: state.additionalProps,
-      openDialog: (action, additionalProps = null) => {
-        dispatch({ action, additionalProps });
+      openDialog: (type, additionalProps = null) => {
+        dispatch({ type, additionalProps });
       },
-      closeDialog: () => { dispatch({ action: DialogEnum.CloseDialog }); },
+      closeDialog: () => { dispatch({ type: DialogEnum.CloseDialog }); },
     }), [state.activeDialog, state.additionalProps])}
     >
       {children}
