@@ -1,12 +1,23 @@
 import {
   Card, Button, Group, Tooltip,
 } from '@mantine/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AlignBoxBottomCenter, CircleOff, PhoneCalling } from 'tabler-icons-react';
 import { JokerActionsEnum, useJoker } from '../../providers/JokerProvider';
+import { useQuestion } from '../../providers/QuestionProvider';
 
 function Jokers({}) {
   const jokerContext = useJoker();
+  const questionContext = useQuestion();
+
+  useEffect(() => {
+    if (questionContext.question === null) {
+      jokerContext.reset();
+      return;
+    }
+
+    jokerContext.setCurrentQuestion(questionContext.question.id);
+  }, [questionContext.question]);
 
   return (
     <Card
