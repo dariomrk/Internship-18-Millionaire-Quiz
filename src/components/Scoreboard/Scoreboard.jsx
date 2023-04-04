@@ -1,4 +1,4 @@
-import { Stack, Text } from '@mantine/core';
+import { Divider, Stack, Text } from '@mantine/core';
 import React from 'react';
 import { useScore } from '../../providers/ScoreProvider';
 
@@ -6,19 +6,24 @@ function Scoreboard({}) {
   const scoreboardContext = useScore();
 
   return (
-    <Stack style={{ flexDirection: 'column-reverse' }}>
+    <Stack
+      spacing={0}
+      style={{ flexDirection: 'column-reverse' }}
+    >
       {scoreboardContext.scores.map((score, i) => {
         const isCurrentScore = scoreboardContext.scoreIndex === i;
 
         return (
-          <Text
-            key={score}
-            color={(isCurrentScore ? 'blue' : 'black')}
-            weight={(isCurrentScore ? 'bolder' : 'normal')}
-            align="right"
-          >
-            {score}
-          </Text>
+          <React.Fragment key={score}>
+            <Text
+              color={(isCurrentScore ? 'blue' : 'black')}
+              weight={(isCurrentScore ? 'bolder' : 'light')}
+              align="right"
+            >
+              {score}
+            </Text>
+            <Divider my="xs" variant="dotted" />
+          </React.Fragment>
         );
       })}
     </Stack>
