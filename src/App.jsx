@@ -2,13 +2,14 @@ import React from 'react';
 import ScoreProvider from './providers/ScoreProvider';
 import JokerProvider from './providers/JokerProvider';
 import QuestionProvider from './providers/QuestionProvider';
+import Game from './components/Game';
 
 function App() {
   return (
     <ScoreProvider>
       <JokerProvider>
         <QuestionProvider>
-          {/* application */}
+          <Game />
         </QuestionProvider>
       </JokerProvider>
     </ScoreProvider>
