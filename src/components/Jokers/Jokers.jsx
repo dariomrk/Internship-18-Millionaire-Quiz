@@ -22,7 +22,17 @@ function Jokers({}) {
   }, [questionContext.question]);
 
   useEffect(() => {
-    if (jokerContext.audience === null) { return; }
+    if (jokerContext.fiftyFifty) { return; }
+    dialogContext.openDialog(DialogEnum.JokerHintDialog, {});
+  }, [jokerContext.fiftyFifty]);
+
+  useEffect(() => {
+    if (jokerContext.call) { return; }
+    dialogContext.openDialog(DialogEnum.JokerHintDialog, {});
+  }, [jokerContext.call]);
+
+  useEffect(() => {
+    if (jokerContext.audience) { return; }
     dialogContext.openDialog(DialogEnum.JokerHintDialog, {});
   }, [jokerContext.audience]);
 
