@@ -11,8 +11,12 @@ const defaultContext = {
 export const QuestionContext = createContext(defaultContext);
 
 function QuestionProvider({ children }) {
-  const [currentQuestion, setCurrentQuestion] = useState(null);
   const [questions, setQuestions] = useState(loadQuestions());
+  const [currentQuestion, setCurrentQuestion] = useState(() => {
+    const [nextQuestion, modifiedQuestions] = consumeQuestions(questions);
+    setQuestions(modifiedQuestions);
+    return nextQuestion;
+  });
 
   return (
     <QuestionContext.Provider value={useMemo(() => ({

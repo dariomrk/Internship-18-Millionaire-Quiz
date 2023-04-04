@@ -4,10 +4,10 @@ import questionsJson from '../assets/questions.json';
  * Loads questions from the questions.json file.
  * @returns {{
  *  id: string,
-*  question: string,
-*  options: string[],
-*  answer: number,
-*  isUsed: boolean,
+*   question: string,
+*   options: string[],
+*   answer: number,
+*   isUsed: boolean,
 * }[]}
  */
 export const loadQuestions = () => questionsJson.map((q) => ({
