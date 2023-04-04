@@ -26,7 +26,7 @@ function Answer({}) {
         <Button miw={400}>
           D:
           {' '}
-          {questionContext.question?.answers[0] ?? 'Option fout goes here'}
+          {questionContext.question?.answers[0] ?? 'Option four goes here'}
         </Button>
       </SimpleGrid>
     </Card>
