@@ -22,18 +22,29 @@ function Jokers({}) {
   }, [questionContext.question]);
 
   useEffect(() => {
+    // eslint-disable-next-line no-useless-return
     if (jokerContext.fiftyFifty) { return; }
-    dialogContext.openDialog(DialogEnum.JokerHintDialog, {});
+    // TODO disable two answers
   }, [jokerContext.fiftyFifty]);
 
   useEffect(() => {
     if (jokerContext.call) { return; }
-    dialogContext.openDialog(DialogEnum.JokerHintDialog, {});
+    // TODO add joker hint & answer calculation
+    const calculatedAnswer = 'ANSWER';
+    dialogContext.openDialog(
+      DialogEnum.JokerHintDialog,
+      { jokerHint: `Hey! I'm pretty sure the correct answer is ${calculatedAnswer}. Good luck!` },
+    );
   }, [jokerContext.call]);
 
   useEffect(() => {
     if (jokerContext.audience) { return; }
-    dialogContext.openDialog(DialogEnum.JokerHintDialog, {});
+    // TODO add joker hint & answer calculation
+    const calculatedAnswer = 'ANSWER';
+    dialogContext.openDialog(
+      DialogEnum.JokerHintDialog,
+      { jokerHint: `The majority of the audience says that ${calculatedAnswer} is the correct answer. We're gonna see if they are wrong very soon...` },
+    );
   }, [jokerContext.audience]);
 
   return (
