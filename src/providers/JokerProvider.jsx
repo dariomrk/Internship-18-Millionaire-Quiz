@@ -6,7 +6,9 @@ const defaultContext = {
   fiftyFifty: true,
   call: true,
   audience: true,
+  currentQuestionId: '',
   consumeJoker: () => {},
+  setCurrentQuestion: () => {},
   reset: () => {},
 };
 
@@ -16,7 +18,8 @@ export const JokerActionsEnum = Object.freeze({
   FiftyFifty: Symbol(1),
   Call: Symbol(2),
   Audience: Symbol(3),
-  Reset: Symbol(0),
+  SetCurrentQuestion: Symbol(0),
+  Reset: Symbol(-1),
 });
 
 export const jokerReducer = (state, action) => {
@@ -27,12 +30,15 @@ export const jokerReducer = (state, action) => {
       return { ...state, call: false };
     case JokerActionsEnum.Audience:
       return { ...state, audience: false };
+    case JokerActionsEnum.SetCurrentQuestion:
+      return { ...state, currentQuestionId: action.questionId };
     case JokerActionsEnum.Reset:
       return {
         ...state,
         fiftyFifty: true,
         call: true,
         audience: true,
+        currentQuestionId: '',
       };
     default:
       throw new Error(`Unsupported action type: ${action.type}`);
@@ -52,6 +58,12 @@ function JokerProvider({ children }) {
       call: state.call,
       audience: state.audience,
       consumeJoker: (jokerName) => { dispatch({ type: jokerName }); },
+      setCurrentQuestion: (questionId) => {
+        dispatch({
+          type: JokerActionsEnum.SetCurrentQuestion,
+          questionId,
+        });
+      },
       reset: () => { dispatch({ type: JokerActionsEnum.Reset }); },
     }), [state.fiftyFifty, state.call, state.audience])}
     >
