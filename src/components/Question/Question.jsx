@@ -4,7 +4,7 @@ import { useQuestion } from '../../providers/QuestionProvider';
 
 function Question({}) {
   const questionContext = useQuestion();
-
+  console.log(questionContext.question?.question, questionContext.question?.answer); // TODO remove
   return (
     <Text
       align="center"

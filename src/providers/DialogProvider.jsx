@@ -12,19 +12,12 @@ const defaultContext = {
 export const DialogContext = createContext(defaultContext);
 
 export const DialogEnum = Object.freeze({
-  JokerHintDialog: Symbol(1),
-  GameEventDialog: Symbol(2),
+  GameEventDialog: Symbol(1),
   CloseDialog: Symbol(0),
 });
 
 export const dialogReducer = (state, action) => {
   switch (action.type) {
-    case DialogEnum.JokerHintDialog:
-      return {
-        ...state,
-        activeDialog: DialogEnum.JokerHintDialog,
-        additionalProps: action.additionalProps,
-      };
     case DialogEnum.GameEventDialog:
       return {
         ...state,

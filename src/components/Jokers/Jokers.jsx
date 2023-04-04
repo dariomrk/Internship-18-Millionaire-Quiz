@@ -32,8 +32,8 @@ function Jokers({}) {
     // TODO add joker hint & answer calculation
     const calculatedAnswer = 'ANSWER';
     dialogContext.openDialog(
-      DialogEnum.JokerHintDialog,
-      { jokerHint: `Hey! I'm pretty sure the correct answer is ${calculatedAnswer}. Good luck!` },
+      DialogEnum.GameEventDialog,
+      { text: `Hey! I'm pretty sure the correct answer is ${calculatedAnswer}.` },
     );
   }, [jokerContext.call]);
 
@@ -42,8 +42,8 @@ function Jokers({}) {
     // TODO add joker hint & answer calculation
     const calculatedAnswer = 'ANSWER';
     dialogContext.openDialog(
-      DialogEnum.JokerHintDialog,
-      { jokerHint: `The majority of the audience says that ${calculatedAnswer} is the correct answer. We're gonna see if they are wrong very soon...` },
+      DialogEnum.GameEventDialog,
+      { text: `The majority of the audience says that ${calculatedAnswer} is the correct answer. We're gonna see if they are wrong very soon...` },
     );
   }, [jokerContext.audience]);
 

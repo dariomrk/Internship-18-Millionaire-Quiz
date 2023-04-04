@@ -25,6 +25,7 @@ function Answers({}) {
     scoreContext.reset();
   };
 
+  // TODO move dialog to ConfirmationDialog
   return (
     <>
       <Modal opened={modalOpened} onClose={closeModal} centered>
