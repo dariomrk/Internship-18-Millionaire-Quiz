@@ -15,7 +15,7 @@ export const DialogActionsEnum = Object.freeze({
   ConfirmationDialog: Symbol(1),
   JokerHintDialog: Symbol(2),
   GameEventDialog: Symbol(3),
-  CloseEventDialog: Symbol(0),
+  CloseDialog: Symbol(0),
 });
 
 export const dialogReducer = (state, action) => {
@@ -38,7 +38,7 @@ export const dialogReducer = (state, action) => {
         activeDialog: DialogActionsEnum.GameEventDialog,
         additionalProps: action.additionalProps,
       };
-    case DialogActionsEnum.CloseEventDialog:
+    case DialogActionsEnum.CloseDialog:
       return {
         ...state,
         activeDialog: null,
@@ -62,7 +62,7 @@ function DialogProvider({ children }) {
       openDialog: (action, additionalProps = null) => {
         dispatch({ action, additionalProps });
       },
-      closeDialog: () => { dispatch({ action: DialogActionsEnum.CloseEventDialog }); },
+      closeDialog: () => { dispatch({ action: DialogActionsEnum.CloseDialog }); },
     }), [state.activeDialog, state.additionalProps])}
     >
       {children}
