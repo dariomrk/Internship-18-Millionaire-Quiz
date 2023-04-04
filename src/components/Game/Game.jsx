@@ -2,6 +2,7 @@ import { Card } from '@mantine/core';
 import React from 'react';
 import Answer from '../Answer';
 import Question from '../Question';
+import Joker from '../Joker';
 import Scoreboard from '../Scoreboard';
 
 function Game({}) {
