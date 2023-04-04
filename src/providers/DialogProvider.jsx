@@ -11,34 +11,27 @@ const defaultContext = {
 
 export const DialogContext = createContext(defaultContext);
 
-export const DialogActionsEnum = Object.freeze({
-  ConfirmationDialog: Symbol(1),
-  JokerHintDialog: Symbol(2),
-  GameEventDialog: Symbol(3),
+export const DialogEnum = Object.freeze({
+  JokerHintDialog: Symbol(1),
+  GameEventDialog: Symbol(2),
   CloseDialog: Symbol(0),
 });
 
 export const dialogReducer = (state, action) => {
   switch (action.type) {
-    case DialogActionsEnum.ConfirmationDialog:
+    case DialogEnum.JokerHintDialog:
       return {
         ...state,
-        activeDialog: DialogActionsEnum.ConfirmationDialog,
+        activeDialog: DialogEnum.JokerHintDialog,
         additionalProps: action.additionalProps,
       };
-    case DialogActionsEnum.JokerHintDialog:
+    case DialogEnum.GameEventDialog:
       return {
         ...state,
-        activeDialog: DialogActionsEnum.JokerHintDialog,
+        activeDialog: DialogEnum.GameEventDialog,
         additionalProps: action.additionalProps,
       };
-    case DialogActionsEnum.GameEventDialog:
-      return {
-        ...state,
-        activeDialog: DialogActionsEnum.GameEventDialog,
-        additionalProps: action.additionalProps,
-      };
-    case DialogActionsEnum.CloseDialog:
+    case DialogEnum.CloseDialog:
       return {
         ...state,
         activeDialog: null,
@@ -62,7 +55,7 @@ function DialogProvider({ children }) {
       openDialog: (action, additionalProps = null) => {
         dispatch({ action, additionalProps });
       },
-      closeDialog: () => { dispatch({ action: DialogActionsEnum.CloseDialog }); },
+      closeDialog: () => { dispatch({ action: DialogEnum.CloseDialog }); },
     }), [state.activeDialog, state.additionalProps])}
     >
       {children}
