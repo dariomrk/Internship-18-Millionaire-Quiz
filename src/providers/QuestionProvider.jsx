@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, {
+  createContext, useContext, useState, useMemo,
+} from 'react';
 import { consumeQuestions, loadQuestions } from '../functions/questions';
 
 const defaultContext = {
@@ -12,18 +14,15 @@ function QuestionProvider({ children }) {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [questions, setQuestions] = useState(loadQuestions());
 
-  const getNext = () => {
-    const [nextQuestion, modifiedQuestions] = consumeQuestions(questions);
-    setCurrentQuestion(nextQuestion);
-    setQuestions(modifiedQuestions);
-  };
-
   return (
-    // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <QuestionContext.Provider value={{
+    <QuestionContext.Provider value={useMemo(() => ({
       question: currentQuestion,
-      getNext,
-    }}
+      getNext: () => {
+        const [nextQuestion, modifiedQuestions] = consumeQuestions(questions);
+        setCurrentQuestion(nextQuestion);
+        setQuestions(modifiedQuestions);
+      },
+    }), [questions, currentQuestion])}
     >
       {children}
     </QuestionContext.Provider>

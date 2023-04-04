@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, {
+  createContext, useContext, useMemo, useState,
+} from 'react';
 
 const scores = [
   100,
@@ -32,8 +34,7 @@ function ScoreProvider({ children }) {
   const [currentScoreIndex, setCurrentScoreIndex] = useState(0);
 
   return (
-    // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <ScoreContext.Provider value={{
+    <ScoreContext.Provider value={useMemo(() => ({
       scoreIndex: currentScoreIndex,
       scores,
       hasWon: currentScoreIndex >= scores.length - 1,
@@ -42,7 +43,7 @@ function ScoreProvider({ children }) {
         setCurrentScoreIndex(currentScoreIndex + 1);
       },
       reset: () => { setCurrentScoreIndex(0); },
-    }}
+    }), [currentScoreIndex])}
     >
       {children}
     </ScoreContext.Provider>

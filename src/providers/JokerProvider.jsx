@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, {
+  createContext, useContext, useReducer, useMemo,
+} from 'react';
 
 const defaultContext = {
   fiftyFifty: true,
@@ -10,15 +12,22 @@ const defaultContext = {
 
 export const JokerContext = createContext(defaultContext);
 
+export const JokerActionsEnum = Object.freeze({
+  FiftyFifty: Symbol(1),
+  Call: Symbol(2),
+  Audience: Symbol(3),
+  Reset: Symbol(0),
+});
+
 export const jokerReducer = (state, action) => {
   switch (action.type) {
-    case 'fiftyFifty':
+    case JokerActionsEnum.FiftyFifty:
       return { ...state, fiftyFifty: false };
-    case 'call':
+    case JokerActionsEnum.Call:
       return { ...state, call: false };
-    case 'audience':
+    case JokerActionsEnum.Audience:
       return { ...state, audience: false };
-    case 'reset':
+    case JokerActionsEnum.Reset:
       return {
         ...state,
         fiftyFifty: true,
@@ -38,14 +47,13 @@ function JokerProvider({ children }) {
   });
 
   return (
-    // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <JokerContext.Provider value={{
+    <JokerContext.Provider value={useMemo(() => ({
       fiftyFifty: state.fiftyFifty,
       call: state.call,
       audience: state.audience,
       consumeJoker: (jokerName) => { dispatch({ type: jokerName }); },
-      reset: () => { dispatch({ type: 'reset' }); },
-    }}
+      reset: () => { dispatch({ type: JokerActionsEnum.Reset }); },
+    }), [state.fiftyFifty, state.call, state.audience])}
     >
       {children}
     </JokerContext.Provider>
