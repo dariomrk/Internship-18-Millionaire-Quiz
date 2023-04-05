@@ -8,7 +8,7 @@ import { useQuestion } from '../../providers/QuestionProvider';
 import { useScore } from '../../providers/ScoreProvider';
 import Answer from '../Answer';
 
-function Answers({}) {
+function Answers() {
   const jokerContext = useJoker();
   const questionContext = useQuestion();
   const scoreContext = useScore();

@@ -2,7 +2,7 @@ import { Divider, Stack, Text } from '@mantine/core';
 import React from 'react';
 import { useScore } from '../../providers/ScoreProvider';
 
-function Scoreboard({}) {
+function Scoreboard() {
   const scoreboardContext = useScore();
 
   return (

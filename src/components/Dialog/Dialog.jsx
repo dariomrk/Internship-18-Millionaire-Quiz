@@ -2,7 +2,7 @@ import React from 'react';
 import { useDialog, DialogEnum } from '../../providers/DialogProvider';
 import GameEventDialog from './GameEventDialog';
 
-function Dialog({}) {
+function Dialog() {
   const {
     activeDialog,
     additionalProps,

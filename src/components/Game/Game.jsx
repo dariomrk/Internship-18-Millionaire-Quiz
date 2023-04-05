@@ -1,7 +1,7 @@
 import {
   Card, Group, Stack,
 } from '@mantine/core';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Answers from '../Answers';
 import Question from '../Question';
 import Jokers from '../Jokers';
@@ -10,8 +10,7 @@ import Dialog from '../Dialog';
 import { useScore } from '../../providers/ScoreProvider';
 import { useDialog, DialogEnum } from '../../providers/DialogProvider';
 
-function Game({}) {
-  const [previousScore, setPreviousScore] = useState(null);
+function Game() {
   const scoreContext = useScore();
   const dialogContext = useDialog();
 

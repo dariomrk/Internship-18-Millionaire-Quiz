@@ -7,7 +7,7 @@ import { JokerActionsEnum, useJoker } from '../../providers/JokerProvider';
 import { useQuestion } from '../../providers/QuestionProvider';
 import { useDialog, DialogEnum } from '../../providers/DialogProvider';
 
-function Jokers({}) {
+function Jokers() {
   const jokerContext = useJoker();
   const questionContext = useQuestion();
   const dialogContext = useDialog();
