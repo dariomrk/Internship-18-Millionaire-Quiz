@@ -6,88 +6,73 @@ import React, { useState, useEffect } from 'react';
 import { useJoker } from '../../providers/JokerProvider';
 import { useQuestion } from '../../providers/QuestionProvider';
 import { useScore } from '../../providers/ScoreProvider';
-import Answer from '../Answer';
 
 function Answers() {
   const jokerContext = useJoker();
   const questionContext = useQuestion();
   const scoreContext = useScore();
-  const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false);
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
+  const [showAnswer, setShowAnswer] = useState(false);
 
-  const handleCorrectAnswer = () => {
-    questionContext.getNext();
-    scoreContext.next();
-  };
-  const handleIncorrectAnswer = () => {
-    jokerContext.reset();
-    questionContext.getNext();
-    scoreContext.reset();
-  };
+  useEffect(() => {
+    if (!showAnswer) return;
 
-  // TODO move dialog to ConfirmationDialog
+    setTimeout(() => {
+      if (selectedQuestion === questionContext.question.answer) {
+      // correct
+        questionContext.getNext();
+        scoreContext.next();
+      } else {
+      // incorrect
+        jokerContext.reset();
+        questionContext.getNext();
+        scoreContext.reset();
+      }
+      setShowAnswer(false);
+    }, 3000);
+  }, [showAnswer]);
+
   return (
-    <>
-      <Modal opened={modalOpened} onClose={closeModal} centered>
-        <Stack>
-          <Text size={20} align="center">
-            Are you sure?
-          </Text>
+    <Card>
+      <SimpleGrid cols={2}>
+        {questionContext.question?.options.map((option, i) => (
           <Button
-            onClick={() => {
-              if (selectedAnswer === questionContext.question.answer) {
-                handleCorrectAnswer();
-              } else {
-                handleIncorrectAnswer();
+            key={option}
+            variant="filled"
+            color={(showAnswer
+              ? i === questionContext.question.answer
+                ? 'green'
+                : 'red'
+              : 'blue')}
+            miw={400}
+            disabled={(() => {
+              if (jokerContext.fiftyFifty) {
+                return false;
               }
-              setSelectedAnswer(null);
-              closeModal();
-            }}
-            variant="light"
-          >
-            Yes
-          </Button>
-          <Button
+              if (jokerContext.currentQuestionId !== questionContext.question.id) {
+                return false;
+              }
+
+              const wrongEnabledIndex = (
+                questionContext.question.answer === 0
+                  ? 3
+                  : questionContext.question.answer - 1
+              );
+
+              return i !== questionContext.question.answer && wrongEnabledIndex !== i;
+            })()}
             onClick={() => {
-              setSelectedAnswer(null);
-              closeModal();
+              setShowAnswer(true);
+              setSelectedQuestion(i);
             }}
-            color="red"
           >
-            No
+            {String.fromCharCode(i + 65)}
+            {': '}
+            {option}
           </Button>
-        </Stack>
-      </Modal>
-      <Card>
-        <SimpleGrid cols={2}>
-          {questionContext.question?.options.map((answer, i) => (
-            <Answer
-              key={answer}
-              answer={answer}
-              index={i}
-              setAnswerCallback={setSelectedAnswer}
-              openModalCallback={openModal}
-              disabled={(() => {
-                if (jokerContext.fiftyFifty) {
-                  return false;
-                }
-                if (jokerContext.currentQuestionId !== questionContext.question.id) {
-                  return false;
-                }
-
-                const wrongEnabledIndex = (
-                  questionContext.question.answer === 0
-                    ? 3
-                    : questionContext.question.answer - 1
-                );
-
-                return i !== questionContext.question.answer && wrongEnabledIndex !== i;
-              })()}
-            />
-          ))}
-        </SimpleGrid>
-      </Card>
-    </>
+        ))}
+      </SimpleGrid>
+    </Card>
   );
 }
 
