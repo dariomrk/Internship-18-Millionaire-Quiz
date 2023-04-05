@@ -15,6 +15,13 @@ function Answers() {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
   const dialogContext = useDialog();
+  const [fiftyFiftyUsedOnId, setFiftyFiftyUsedOnId] = useState(null);
+
+  useEffect(() => {
+    if (jokerContext.fiftyFifty) { setFiftyFiftyUsedOnId(null); }
+
+    setFiftyFiftyUsedOnId(questionContext.question.id);
+  }, [jokerContext.fiftyFifty]);
 
   useEffect(() => {
     if (!showAnswer) return;
@@ -42,11 +49,6 @@ function Answers() {
           <Button
             key={option}
             miw={400}
-            // variant={(
-            //   selectedQuestion === i || questionContext.question.answer === i
-            //     ? 'filled'
-            //     : 'light'
-            // )}
             variant={(() => {
               if (i === selectedQuestion) {
                 return 'filled';
@@ -62,22 +64,23 @@ function Answers() {
               if (!showAnswer) { return 'blue'; }
               return (i === questionContext.question.answer ? 'green' : 'red');
             })()}
-            disabled={(() => {
-              if (jokerContext.fiftyFifty) {
-                return false;
-              }
-              if (jokerContext.currentQuestionId !== questionContext.question.id) {
-                return false;
-              }
+            disabled={fiftyFiftyUsedOnId === questionContext.question.id
+              && (() => {
+                if (jokerContext.fiftyFifty) {
+                  return false;
+                }
+                if (jokerContext.currentQuestionId !== questionContext.question.id) {
+                  return false;
+                }
 
-              const wrongEnabledIndex = (
-                questionContext.question.answer === 0
-                  ? 3
-                  : questionContext.question.answer - 1
-              );
+                const wrongEnabledIndex = (
+                  questionContext.question.answer === 0
+                    ? 3
+                    : questionContext.question.answer - 1
+                );
 
-              return i !== questionContext.question.answer && wrongEnabledIndex !== i;
-            })()}
+                return i !== questionContext.question.answer && wrongEnabledIndex !== i;
+              })()}
             onClick={() => {
               setSelectedQuestion(i);
               dialogContext.openDialog(DialogEnum.ConfirmationDialog, {

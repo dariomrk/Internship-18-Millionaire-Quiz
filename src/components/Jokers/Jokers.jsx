@@ -37,7 +37,7 @@ function Jokers() {
     );
     dialogContext.openDialog(
       DialogEnum.GameEventDialog,
-      { text: `Hey! I'm pretty sure the correct answer is ${calculatedAnswer}.` },
+      { text: `Hey! I'm pretty sure the correct answer is "${calculatedAnswer}".` },
     );
   }, [jokerContext.call]);
 
@@ -51,7 +51,7 @@ function Jokers() {
     );
     dialogContext.openDialog(
       DialogEnum.GameEventDialog,
-      { text: `The majority of the audience says that ${calculatedAnswer} is the correct answer. We're gonna see if they are wrong very soon...` },
+      { text: `The majority of the audience says that "${calculatedAnswer}" is the correct answer. We're gonna see if they are wrong very soon...` },
     );
   }, [jokerContext.audience]);
 

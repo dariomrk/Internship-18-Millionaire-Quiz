@@ -31,5 +31,6 @@ export const consumeQuestions = (questions) => {
     }
     return q;
   });
+  console.log(randomQuestion);
   return [randomQuestion, modifiedQuestions];
 };
