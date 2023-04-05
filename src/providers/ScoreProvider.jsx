@@ -24,6 +24,7 @@ const defaultContext = {
   scoreIndex: 0,
   scores,
   hasWon: false,
+  hasLost: false,
   next: () => {},
   reset: () => {},
 };
@@ -31,19 +32,28 @@ const defaultContext = {
 export const ScoreContext = createContext(defaultContext);
 
 function ScoreProvider({ children }) {
-  const [currentScoreIndex, setCurrentScoreIndex] = useState(0);
+  const [scoreState, setScoreState] = useState({ scoreIndex: 0, hasLost: false });
 
   return (
     <ScoreContext.Provider value={useMemo(() => ({
-      scoreIndex: currentScoreIndex,
+      scoreIndex: scoreState.scoreIndex,
       scores,
-      hasWon: currentScoreIndex >= scores.length - 1,
+      hasWon: scoreState >= scores.length - 1,
+      hasLost: scoreState.hasLost,
       next: () => {
-        if (currentScoreIndex >= scores.length - 1) return;
-        setCurrentScoreIndex(currentScoreIndex + 1);
+        if (scoreState >= scores.length - 1) return;
+        setScoreState({
+          hasLost: false,
+          scoreIndex: scoreState.scoreIndex + 1,
+        });
       },
-      reset: () => { setCurrentScoreIndex(0); },
-    }), [currentScoreIndex])}
+      reset: () => {
+        setScoreState({
+          hasLost: true,
+          scoreIndex: 0,
+        });
+      },
+    }), [scoreState])}
     >
       {children}
     </ScoreContext.Provider>

@@ -23,14 +23,9 @@ function Game({}) {
   }, [scoreContext.hasWon]);
 
   useEffect(() => {
-    setPreviousScore(scoreContext.scoreIndex);
-
-    if (previousScore === null) { return; }
-
-    if (scoreContext.scoreIndex <= previousScore) {
-      dialogContext.openDialog(DialogEnum.GameEventDialog, { text: 'You lost. Better luck next time!' });
-    }
-  }, [scoreContext.scoreIndex]);
+    if (!scoreContext.hasLost) { return; }
+    dialogContext.openDialog(DialogEnum.GameEventDialog, { text: 'You lost! Better luck next time' });
+  }, [scoreContext.hasLost]);
 
   return (
     <>
