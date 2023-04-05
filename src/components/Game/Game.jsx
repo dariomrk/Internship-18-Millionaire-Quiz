@@ -17,7 +17,6 @@ function Game() {
   const questionContext = useQuestion();
 
   useEffect(() => {
-    console.log(scoreContext);
     if (!scoreContext.hasWon) { return; }
 
     dialogContext.openDialog(DialogEnum.GameEventDialog, { text: 'Congrats! You have won $1,000,000!' });
