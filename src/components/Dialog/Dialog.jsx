@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDialog, DialogEnum } from '../../providers/DialogProvider';
 import GameEventDialog from './GameEventDialog';
+import ConfirmationDialog from './ConfirmationDialog';
 
 function Dialog() {
   const {
@@ -14,6 +15,11 @@ function Dialog() {
     <>
       <GameEventDialog
         open={activeDialog === DialogEnum.GameEventDialog}
+        onClose={closeDialog}
+        {...additionalProps}
+      />
+      <ConfirmationDialog
+        open={activeDialog === DialogEnum.ConfirmationDialog}
         onClose={closeDialog}
         {...additionalProps}
       />

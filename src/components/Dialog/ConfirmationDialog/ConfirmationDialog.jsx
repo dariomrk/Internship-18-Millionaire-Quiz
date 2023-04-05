@@ -4,10 +4,15 @@ import {
 } from '@mantine/core';
 
 function ConfirmationDialog({
-  open, onAccept, onDeny, text,
+  open, onAccept, onDeny, onClose, text,
 }) {
+  const handleClose = () => {
+    onDeny();
+    onClose();
+  };
+
   return (
-    <Modal opened={open} onClose={onClose} centered>
+    <Modal opened={open} onClose={handleClose} centered>
       <Stack>
         <Text size={20} align="center">
           {text}
@@ -16,18 +21,17 @@ function ConfirmationDialog({
           variant="light"
           onClick={() => {
             onAccept();
+            onClose();
           }}
           color="blue"
         >
-          Close
+          Yes
         </Button>
         <Button
-          onClick={() => {
-            onDeny();
-          }}
+          onClick={handleClose}
           color="red"
         >
-          Close
+          No
         </Button>
       </Stack>
     </Modal>

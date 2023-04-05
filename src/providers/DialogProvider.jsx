@@ -13,6 +13,7 @@ export const DialogContext = createContext(defaultContext);
 
 export const DialogEnum = Object.freeze({
   GameEventDialog: Symbol(1),
+  ConfirmationDialog: Symbol(2),
   CloseDialog: Symbol(0),
 });
 
@@ -22,6 +23,12 @@ export const dialogReducer = (state, action) => {
       return {
         ...state,
         activeDialog: DialogEnum.GameEventDialog,
+        additionalProps: action.additionalProps,
+      };
+    case DialogEnum.ConfirmationDialog:
+      return {
+        ...state,
+        activeDialog: DialogEnum.ConfirmationDialog,
         additionalProps: action.additionalProps,
       };
     case DialogEnum.CloseDialog:

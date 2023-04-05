@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { useJoker } from '../../providers/JokerProvider';
 import { useQuestion } from '../../providers/QuestionProvider';
 import { useScore } from '../../providers/ScoreProvider';
+import { DialogEnum, useDialog } from '../../providers/DialogProvider';
 
 function Answers() {
   const jokerContext = useJoker();
@@ -13,6 +14,7 @@ function Answers() {
   const scoreContext = useScore();
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
+  const dialogContext = useDialog();
 
   useEffect(() => {
     if (!showAnswer) return;
@@ -29,6 +31,7 @@ function Answers() {
         scoreContext.reset();
       }
       setShowAnswer(false);
+      setSelectedQuestion(null);
     }, 3000);
   }, [showAnswer]);
 
@@ -38,13 +41,27 @@ function Answers() {
         {questionContext.question?.options.map((option, i) => (
           <Button
             key={option}
-            variant="filled"
-            color={(showAnswer
-              ? i === questionContext.question.answer
-                ? 'green'
-                : 'red'
-              : 'blue')}
             miw={400}
+            // variant={(
+            //   selectedQuestion === i || questionContext.question.answer === i
+            //     ? 'filled'
+            //     : 'light'
+            // )}
+            variant={(() => {
+              if (i === selectedQuestion) {
+                return 'filled';
+              }
+              if (!showAnswer) {
+                return 'light';
+              }
+              return (selectedQuestion === i || questionContext.question.answer === i
+                ? 'filled'
+                : 'light');
+            })()}
+            color={(() => {
+              if (!showAnswer) { return 'blue'; }
+              return (i === questionContext.question.answer ? 'green' : 'red');
+            })()}
             disabled={(() => {
               if (jokerContext.fiftyFifty) {
                 return false;
@@ -62,8 +79,14 @@ function Answers() {
               return i !== questionContext.question.answer && wrongEnabledIndex !== i;
             })()}
             onClick={() => {
-              setShowAnswer(true);
               setSelectedQuestion(i);
+              dialogContext.openDialog(DialogEnum.ConfirmationDialog, {
+                onAccept: () => {
+                  setShowAnswer(true);
+                },
+                onDeny: () => { setSelectedQuestion(null); },
+                text: `${questionContext.question.options[i]} is your final answer?`,
+              });
             }}
           >
             {String.fromCharCode(i + 65)}
