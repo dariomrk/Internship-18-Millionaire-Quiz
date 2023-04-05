@@ -7,6 +7,15 @@ import { JokerActionsEnum, useJoker } from '../../providers/JokerProvider';
 import { useQuestion } from '../../providers/QuestionProvider';
 import { useDialog, DialogEnum } from '../../providers/DialogProvider';
 
+function getRandomItem(arr, specifiedItem, chance) {
+  const randomNum = Math.random();
+  if (randomNum < chance) {
+    return specifiedItem;
+  }
+  const randomIndex = Math.floor(Math.random() * arr.length);
+  return arr[randomIndex];
+}
+
 function Jokers() {
   const jokerContext = useJoker();
   const questionContext = useQuestion();
@@ -20,8 +29,12 @@ function Jokers() {
 
   useEffect(() => {
     if (jokerContext.call) { return; }
-    // TODO add joker hint & answer calculation
-    const calculatedAnswer = 'ANSWER';
+
+    const calculatedAnswer = getRandomItem(
+      questionContext.question.options,
+      questionContext.question.options[questionContext.question.answer],
+      0.9,
+    );
     dialogContext.openDialog(
       DialogEnum.GameEventDialog,
       { text: `Hey! I'm pretty sure the correct answer is ${calculatedAnswer}.` },
@@ -30,8 +43,12 @@ function Jokers() {
 
   useEffect(() => {
     if (jokerContext.audience) { return; }
-    // TODO add joker hint & answer calculation
-    const calculatedAnswer = 'ANSWER';
+
+    const calculatedAnswer = getRandomItem(
+      questionContext.question.options,
+      questionContext.question.options[questionContext.question.answer],
+      0.8,
+    );
     dialogContext.openDialog(
       DialogEnum.GameEventDialog,
       { text: `The majority of the audience says that ${calculatedAnswer} is the correct answer. We're gonna see if they are wrong very soon...` },
