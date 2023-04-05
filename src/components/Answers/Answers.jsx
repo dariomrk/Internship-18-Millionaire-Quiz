@@ -1,7 +1,6 @@
 import {
-  Button, Card, SimpleGrid, Modal, Stack, Text,
+  Button, Card, SimpleGrid,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import React, { useState, useEffect } from 'react';
 import { useJoker } from '../../providers/JokerProvider';
 import { useQuestion } from '../../providers/QuestionProvider';
@@ -64,23 +63,17 @@ function Answers() {
               if (!showAnswer) { return 'blue'; }
               return (i === questionContext.question.answer ? 'green' : 'red');
             })()}
-            disabled={fiftyFiftyUsedOnId === questionContext.question.id
-              && (() => {
-                if (jokerContext.fiftyFifty) {
-                  return false;
-                }
-                if (jokerContext.currentQuestionId !== questionContext.question.id) {
-                  return false;
-                }
-
-                const wrongEnabledIndex = (
-                  questionContext.question.answer === 0
-                    ? 3
-                    : questionContext.question.answer - 1
-                );
-
-                return i !== questionContext.question.answer && wrongEnabledIndex !== i;
-              })()}
+            disabled={(() => {
+              if (fiftyFiftyUsedOnId !== questionContext.question.id) return false;
+              if (jokerContext.fiftyFifty) return false;
+              if (jokerContext.currentQuestionId !== questionContext.question.id) return false;
+              const wrongEnabledIndex = (
+                questionContext.question.answer === 0
+                  ? 3
+                  : questionContext.question.answer - 1
+              );
+              return i !== questionContext.question.answer && wrongEnabledIndex !== i;
+            })()}
             onClick={() => {
               setSelectedQuestion(i);
               dialogContext.openDialog(DialogEnum.ConfirmationDialog, {

@@ -58,7 +58,7 @@ function JokerProvider({ children }) {
       currentQuestionId: state.currentQuestionId,
       consumeJoker: (jokerName, questionId) => { dispatch({ type: jokerName, questionId }); },
       reset: () => { dispatch({ type: JokerActionsEnum.Reset }); },
-    }), [state.fiftyFifty, state.call, state.audience])}
+    }), [state.fiftyFifty, state.call, state.audience, state.currentQuestionId])}
     >
       {children}
     </JokerContext.Provider>
