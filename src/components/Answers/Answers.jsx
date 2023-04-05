@@ -2,7 +2,7 @@ import {
   Button, Card, SimpleGrid, Modal, Stack, Text,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useJoker } from '../../providers/JokerProvider';
 import { useQuestion } from '../../providers/QuestionProvider';
 import { useScore } from '../../providers/ScoreProvider';
@@ -67,7 +67,22 @@ function Answers() {
               index={i}
               setAnswerCallback={setSelectedAnswer}
               openModalCallback={openModal}
-              disabled={false}
+              disabled={(() => {
+                if (jokerContext.fiftyFifty) {
+                  return false;
+                }
+                if (jokerContext.currentQuestionId !== questionContext.question.id) {
+                  return false;
+                }
+
+                const wrongEnabledIndex = (
+                  questionContext.question.answer === 0
+                    ? 3
+                    : questionContext.question.answer - 1
+                );
+
+                return i !== questionContext.question.answer && wrongEnabledIndex !== i;
+              })()}
             />
           ))}
         </SimpleGrid>

@@ -15,17 +15,8 @@ function Jokers() {
   useEffect(() => {
     if (questionContext.question === null) {
       jokerContext.reset();
-      return;
     }
-
-    jokerContext.setCurrentQuestion(questionContext.question.id);
   }, [questionContext.question]);
-
-  useEffect(() => {
-    // eslint-disable-next-line no-useless-return
-    if (jokerContext.fiftyFifty) { return; }
-    // TODO disable two answers
-  }, [jokerContext.fiftyFifty]);
 
   useEffect(() => {
     if (jokerContext.call) { return; }
@@ -57,7 +48,7 @@ function Jokers() {
         <Tooltip.Floating label="Eliminates two incorrect answer options">
           <Button
             onClick={() => {
-              jokerContext.consumeJoker(JokerActionsEnum.FiftyFifty);
+              jokerContext.consumeJoker(JokerActionsEnum.FiftyFifty, questionContext.question.id);
             }}
             leftIcon={<CircleOff />}
             disabled={!jokerContext.fiftyFifty}
@@ -68,7 +59,7 @@ function Jokers() {
         <Tooltip.Floating label="Gives you 90% chance of getting the right answer back">
           <Button
             onClick={() => {
-              jokerContext.consumeJoker(JokerActionsEnum.Call);
+              jokerContext.consumeJoker(JokerActionsEnum.Call, questionContext.question.id);
             }}
             leftIcon={<PhoneCalling />}
             disabled={!jokerContext.call}
@@ -79,7 +70,7 @@ function Jokers() {
         <Tooltip.Floating label="Gives you 80% chance of getting the right answer back">
           <Button
             onClick={() => {
-              jokerContext.consumeJoker(JokerActionsEnum.Audience);
+              jokerContext.consumeJoker(JokerActionsEnum.Audience, questionContext.question.id);
             }}
             leftIcon={<AlignBoxBottomCenter />}
             disabled={!jokerContext.audience}

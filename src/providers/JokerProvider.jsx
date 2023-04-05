@@ -18,20 +18,17 @@ export const JokerActionsEnum = Object.freeze({
   FiftyFifty: Symbol(1),
   Call: Symbol(2),
   Audience: Symbol(3),
-  SetCurrentQuestion: Symbol(0),
   Reset: Symbol(-1),
 });
 
 export const jokerReducer = (state, action) => {
   switch (action.type) {
     case JokerActionsEnum.FiftyFifty:
-      return { ...state, fiftyFifty: false };
+      return { ...state, fiftyFifty: false, currentQuestionId: action.questionId };
     case JokerActionsEnum.Call:
-      return { ...state, call: false };
+      return { ...state, call: false, currentQuestionId: action.questionId };
     case JokerActionsEnum.Audience:
-      return { ...state, audience: false };
-    case JokerActionsEnum.SetCurrentQuestion:
-      return { ...state, currentQuestionId: action.questionId };
+      return { ...state, audience: false, currentQuestionId: action.questionId };
     case JokerActionsEnum.Reset:
       return {
         ...state,
@@ -50,6 +47,7 @@ function JokerProvider({ children }) {
     fiftyFifty: true,
     call: true,
     audience: true,
+    currentQuestionId: '',
   });
 
   return (
@@ -57,13 +55,8 @@ function JokerProvider({ children }) {
       fiftyFifty: state.fiftyFifty,
       call: state.call,
       audience: state.audience,
-      consumeJoker: (jokerName) => { dispatch({ type: jokerName }); },
-      setCurrentQuestion: (questionId) => {
-        dispatch({
-          type: JokerActionsEnum.SetCurrentQuestion,
-          questionId,
-        });
-      },
+      currentQuestionId: state.currentQuestionId,
+      consumeJoker: (jokerName, questionId) => { dispatch({ type: jokerName, questionId }); },
       reset: () => { dispatch({ type: JokerActionsEnum.Reset }); },
     }), [state.fiftyFifty, state.call, state.audience])}
     >
