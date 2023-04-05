@@ -17,6 +17,7 @@ function Game() {
   const questionContext = useQuestion();
 
   useEffect(() => {
+    console.log(scoreContext);
     if (!scoreContext.hasWon) { return; }
 
     dialogContext.openDialog(DialogEnum.GameEventDialog, { text: 'Congrats! You have won $1,000,000!' });
@@ -25,7 +26,7 @@ function Game() {
 
   useEffect(() => {
     if (!scoreContext.hasLost) { return; }
-    dialogContext.openDialog(DialogEnum.GameEventDialog, { text: 'You lost! Better luck next time' });
+    dialogContext.openDialog(DialogEnum.GameEventDialog, { text: 'You lost! Better luck next time.' });
   }, [questionContext.question.id]);
 
   return (

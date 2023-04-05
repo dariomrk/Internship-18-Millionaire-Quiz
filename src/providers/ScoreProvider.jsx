@@ -38,7 +38,7 @@ function ScoreProvider({ children }) {
     <ScoreContext.Provider value={useMemo(() => ({
       scoreIndex: scoreState.scoreIndex,
       scores,
-      hasWon: scoreState >= scores.length - 1,
+      hasWon: scoreState.scoreIndex >= scores.length,
       hasLost: scoreState.hasLost,
       next: () => {
         if (scoreState >= scores.length - 1) return;
